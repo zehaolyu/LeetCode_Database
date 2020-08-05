@@ -1,0 +1,56 @@
+﻿Leetcode Database
+
+
+8/5
+30 minutes
+
+
+176. Second Highest Salary
+How to deal with null value and remember to use distinct
+Method 1: use select
+Method 2: Max(Distinct Salary)
+Limit 1 offset 1 could be limit 1,1
+select
+    (select distinct Salary from Employee
+     order by Salary desc
+     limit 1 offset 1) SecondHighestSalary
+
+
+175. Combine Two Tables
+Left join
+select FirstName, LastName, City, State
+from Person left join Address
+on Person.PersonId = Address.PersonId
+
+
+181. Employees Earning More Than Their Managers
+The order of join?
+select e1.Name Employee from
+Employee e1 join Employee e2
+on e1.ManagerId = e2.Id
+where e1.Salary > e2.Salary
+
+
+1179. Reformat Department Table
+Case when and sum
+select id,
+sum(case when month = 'Jan' then revenue end) Jan_revenue,
+sum(case when month = 'Feb' then revenue end) Feb_revenue,
+sum(case when month = 'Mar' then revenue end) Mar_revenue,
+sum(case when month = 'Apr' then revenue end) Apr_revenue,
+sum(case when month = 'May' then revenue end) May_revenue,
+sum(case when month = 'Jun' then revenue end) Jun_revenue,
+sum(case when month = 'Jul' then revenue end) Jul_revenue,
+sum(case when month = 'Aug' then revenue end) Aug_revenue,
+sum(case when month = 'Sep' then revenue end) Sep_revenue,
+sum(case when month = 'Oct' then revenue end) Oct_revenue,
+sum(case when month = 'Nov' then revenue end) Nov_revenue,
+sum(case when month = 'Dec' then revenue end) Dec_revenue
+from Department
+group by id
+
+
+183. Customers Who Never Order
+select Name Customers
+from Customers
+where Id not in (select CustomerId from Orders)
