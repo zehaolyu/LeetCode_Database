@@ -10,6 +10,7 @@ How to deal with null value and remember to use distinct
 Method 1: use select
 Method 2: Max(Distinct Salary)
 Limit 1 offset 1 could be limit 1,1
+Code:
 select
     (select distinct Salary from Employee
      order by Salary desc
@@ -18,6 +19,7 @@ select
 
 175. Combine Two Tables
 Left join
+Code:
 select FirstName, LastName, City, State
 from Person left join Address
 on Person.PersonId = Address.PersonId
@@ -25,6 +27,7 @@ on Person.PersonId = Address.PersonId
 
 181. Employees Earning More Than Their Managers
 The order of join?
+Code:
 select e1.Name Employee from
 Employee e1 join Employee e2
 on e1.ManagerId = e2.Id
@@ -32,6 +35,7 @@ where e1.Salary > e2.Salary
 
 
 1179. Reformat Department Table
+Code:
 Case when and sum
 select id,
 sum(case when month = 'Jan' then revenue end) Jan_revenue,
@@ -51,6 +55,7 @@ group by id
 
 
 183. Customers Who Never Order
+Code:
 select Name Customers
 from Customers
 where Id not in (select CustomerId from Orders)
