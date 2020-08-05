@@ -35,8 +35,8 @@ where e1.Salary > e2.Salary
 
 
 1179. Reformat Department Table
-Code:
 Case when and sum
+Code:
 select id,
 sum(case when month = 'Jan' then revenue end) Jan_revenue,
 sum(case when month = 'Feb' then revenue end) Feb_revenue,
