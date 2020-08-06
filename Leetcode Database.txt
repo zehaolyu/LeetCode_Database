@@ -1,9 +1,8 @@
 ﻿Leetcode Database
 
 
-8/5
+8/4
 30 minutes
-
 
 176. Second Highest Salary
 How to deal with null value and remember to use distinct
@@ -59,3 +58,55 @@ Code:
 select Name Customers
 from Customers
 where Id not in (select CustomerId from Orders)
+
+
+8/5
+
+31 minutes
+
+182. Duplicate Emails
+Code:
+select Email from Person
+group by Email
+having count(Email)>1
+
+196. Delete Duplicate Emails
+Use delete statement!
+Code:
+delete p1 from
+Person p1,
+Person p2
+where p1.Email = p2.Email and p1.Id>p2.Id
+
+197. Rising Temperature
+DATEDIFF
+Code:
+select w2.Id Id
+from
+Weather w1,
+Weather w2
+where DATEDIFF(w2.RecordDate, w1.RecordDate) = 1 
+and w1.Temperature < w2.Temperature
+
+597. Friend Requests I: Overall Acceptance Rate
+IFNULL
+Code:
+select
+round(
+    ifnull(
+    (select count(*) from (select distinct requester_id, accepter_id from request_accepted) as A)
+    /
+    (select count(*) from (select distinct sender_id, send_to_id from friend_request) as B),
+    0)
+, 2) as accept_rate;
+
+603. Consecutive Available Seats
+Code:
+select distinct c2.seat_id
+from
+cinema c1,
+cinema c2,
+cinema c3
+where (c1.seat_id = c2.seat_id-1 and c1.free = 1 and c2.free=1)
+or (c3.seat_id = c2.seat_id+1 and c3.free = 1 and c2.free=1)
+order by seat_id
