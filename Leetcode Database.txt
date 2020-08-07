@@ -110,3 +110,42 @@ cinema c3
 where (c1.seat_id = c2.seat_id-1 and c1.free = 1 and c2.free=1)
 or (c3.seat_id = c2.seat_id+1 and c3.free = 1 and c2.free=1)
 order by seat_id
+
+8/6
+
+1350. Students With Invalid Departments
+Code:
+select id, name
+from Students
+where department_id not in (select id from Departments)
+
+610. Triangle Judgement
+Code:
+select x, y, z,
+(case when x+y>z and abs(x-y)<z then 'Yes'
+else 'No' end) triangle
+from triangle
+
+1083. Sales Analysis II
+Code:
+select distinct buyer_id
+from Sales
+where product_id in (select product_id from Product where product_name='S8')
+and buyer_id not in (select buyer_id from Sales where product_id in (select product_id from Product where  product_name='iphone'))
+
+1173. Immediate Food Delivery I
+Code:
+select round(100*
+(select count(*) from (select delivery_id from Delivery where order_date = customer_pref_delivery_date) A)
+/
+(select count(*) from Delivery),2) immediate_percentage
+
+1142. User Activity for the Past 30 Days II
+Code:
+select round(ifnull(sum(number)/count(user_id),0),2) average_sessions_per_user 
+from
+(select user_id,
+count(distinct session_id) number
+from Activity where activity_date>'2019-06-27' and activity_date<='2019-07-27'
+group by user_id) A
+
