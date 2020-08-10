@@ -149,3 +149,100 @@ count(distinct session_id) number
 from Activity where activity_date>'2019-06-27' and activity_date<='2019-07-27'
 group by user_id) A
 
+8/7
+
+627. Swap Salary
+Update
+Set
+Case when
+Code:
+update salary
+set sex = case sex
+when 'm' then 'f'
+else 'm'
+End
+
+1327. List the Products Ordered in a Period
+Could be more solid
+Code:
+select product_name,temp.unit from Products
+join
+(select product_id, sum(unit) unit
+from Orders
+where order_date >= '2020-02-01' and order_date <= '2020-02-29'
+group by product_id
+having sum(unit)>=100) temp
+using(product_id)
+
+584. Find Customer Referee
+Code:
+select name from customer
+where referee_id != '2' or referee_id is null
+
+1251. Average Selling Price
+Could be more solid
+select product_id, round(sum(total_sales)/sum(units),2) average_price
+from
+(select u.product_id, price*units total_sales, units
+from Prices p, UnitsSold u
+where p.product_id = u.product_id
+and u.purchase_date>= p.start_date
+and u.purchase_date<= p.end_date) temp
+group by product_id
+
+1050. Actors and Directors Who Cooperated At Least Three Times
+Code:
+select actor_id, director_id
+from ActorDirector
+group by actor_id,director_id
+having count(*)>=3
+
+8/8
+
+586. Customer Placing the Largest Number of Orders
+Code:
+select customer_number
+from orders
+group by customer_number
+order by count(order_number) desc limit 1
+
+1303. Find the Team Size
+Code:
+select e.employee_id, team_size
+from Employee e join
+(select count(employee_id) team_size ,team_id
+from Employee
+group by team_id) t
+using(team_id)
+
+1241. Number of Comments per Post
+Could be more solid
+Code:
+select sub_id post_id, count(id) number_of_comments
+from
+(select s1.sub_id, s2.sub_id id
+from Submissions s1 left join Submissions s2
+on s1.sub_id = s2.parent_id
+where s1.parent_id is null
+group by s1.sub_id, s2.sub_id) temp
+group by post_id
+order by post_id
+
+613. Shortest Distance in a Line
+Could also use min
+Code:
+select abs(p1.x-p2.x) shortest
+from point p1 join point p2
+on p1.x != p2.x
+order by shortest limit 1
+
+619. Biggest Single Number
+Code:
+select max(num) num from
+(select num
+from my_numbers
+group by num
+having (count(num)=1)
+order by num desc limit 1) temp
+
+
