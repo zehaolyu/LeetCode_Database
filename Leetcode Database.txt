@@ -285,4 +285,49 @@ select unique_id, name
 from EmployeeUNI right join Employees
 using(id)
 
+8/10
+
+1068. Product Sales Analysis I
+Code:
+select product_name, year, price
+from Product join Sales
+using(product_id)
+
+1543. Fix Product Name Format
+group by 1,2,3,4: group by first, second, third, fourth columns
+replace(string,' ', ''): remove all space
+LOWER(product_name): format string to lowercase
+Code:
+select 
+replace(LOWER(product_name),' ', '') product_name, 
+DATE_FORMAT(sale_date,"%Y-%m") sale_date, 
+count(sale_id) total
+from Sales
+group by 1,2
+order by 1,2
+
+1527. Patients With a Condition
+Like
+Code:
+select patient_id, patient_name, conditions
+from Patients
+where conditions LIKE '%DIAB1%'
+
+1517. Find Users With Valid E-Mails
+Code based on discussion:
+select * from Users 
+where regexp_like(mail, '^[A-Za-z]+[A-Za-z0-9\_\.\-]*@leetcode.com')
+
+1511. Customer Order Frequency
+Code:
+select customer_id, name
+from 
+(select customer_id, DATE_FORMAT(order_date,"%Y-%m") date, sum(quantity*price) sale
+from Orders join Product
+using(product_id)
+group by customer_id,date
+having (date="2020-06" and sale>=100) or (date = "2020-07" and sale>=100)) temp
+join Customers using(customer_id)
+group by customer_id
+having count(*)>1
 
