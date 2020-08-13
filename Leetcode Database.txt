@@ -331,3 +331,64 @@ join Customers using(customer_id)
 group by customer_id
 having count(*)>1
 
+8/11
+
+620. Not Boring Movies
+Code:
+select id, movie, description, rating
+from cinema
+where id % 2 =1 and description != 'boring'
+order by rating desc
+
+595. Big Countries
+select name, population, area
+from World
+where area > 3000000 or population > 25000000
+
+1407. Top Travellers
+Code:
+select name, ifnull(sum(distance),0) travelled_distance
+from Users left join Rides
+on Users.id = Rides.user_id
+group by name
+order by travelled_distance desc, name
+
+1435. Create a Session Bar Chart
+Union
+Case when is not necessary
+Code:
+SELECT '[0-5>' AS bin,
+       SUM(CASE WHEN duration>=0 and duration<300 THEN 1 ELSE 0 END) AS total
+FROM Sessions
+UNION
+SELECT '[5-10>' AS bin,
+       SUM(CASE WHEN duration>=300 and duration<600 THEN 1 ELSE 0 END) AS total
+FROM Sessions
+UNION
+SELECT '[10-15>' AS bin,
+       SUM(CASE WHEN duration>=600 and duration<900 THEN 1 ELSE 0 END) AS total
+FROM Sessions
+UNION
+SELECT '15 or more' AS bin,
+       SUM(CASE WHEN duration>=900 THEN 1 ELSE 0 END) AS total
+FROM Sessions
+Better:
+SELECT '[0-5>' AS 'bin', SUM(duration/60 < 5) AS 'total'
+FROM Sessions
+UNION
+SELECT '[5-10>' AS 'bin', SUM(duration/60 >= 5 AND duration/60 < 10) AS 'total'
+FROM Sessions
+UNION
+SELECT '[10-15>' AS 'bin', SUM(duration/60 >= 10 AND duration/60 < 15) AS 'total'
+FROM Sessions
+UNION
+SELECT '15 or more' AS 'bin', SUM(duration/60 >= 15) AS 'total'
+FROM Sessions
+
+1495. Friendly Movies Streamed Last Month
+Code:
+select distinct title
+from TVProgram join Content
+using(content_id)
+where program_date like '2020-06%'
+and Kids_content = 'Y' and content_type='Movies'
